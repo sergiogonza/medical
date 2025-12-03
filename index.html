@@ -8,25 +8,24 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Locomotive Scroll CSS (basic) -->
+  <!-- Locomotive Scroll CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css"/>
 
   <style>
     :root{
-      --navy: #0A2342;
-      --deep-navy: #032f35;
-      --turquoise: #2CC7B5;
-      --aqua: #3ED6BE;
-      --cream: #f1f0e6;
-      --light-cream: #bcb8ad;
-      --accent: #f47f30;
-      --white: #ffffff;
-      --muted: #9aa4b2;
-      --page-padding: 10vw;
-      --max-width: 1200px;
+      --navy:#0E1839;
+      --deep-navy:#032f35;
+      --turquoise:#2CC7B5;
+      --aqua:#3ED6BE;
+      --cream:#f1f0e6;
+      --light-cream:#bcb8ad;
+      --accent:#F28A24;
+      --white:#ffffff;
+      --muted:#9aa4b2;
+      --page-padding:10vw;
+      --max-width:1200px;
     }
 
-    /* Reset & base */
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -39,17 +38,10 @@
       overflow-x:hidden;
       transition:background-color .35s ease,color .35s ease;
     }
-
     a{color:inherit;text-decoration:none}
     img{display:block;max-width:100%;height:auto}
 
-    /* Page container for locomotive */
-    .page {
-      max-width:var(--max-width);
-      margin:0 auto;
-      width:100%;
-    }
-
+    /* Fixed header + small logo */
     header.site-header{
       position:fixed;
       z-index:120;
@@ -59,33 +51,32 @@
       justify-content:space-between;
       align-items:center;
       padding:0 var(--page-padding);
-      pointer-events: auto;
-    }
-    .brand {
-      display:flex;
-      align-items:center;
+      pointer-events:auto;
+      transition:all .35s ease;
       gap:12px;
-      background:linear-gradient(90deg,var(--turquoise),var(--aqua));
-      padding:6px 12px;
-      border-radius:10px;
-      color:var(--white);
-      font-weight:700;
-      box-shadow:0 6px 18px rgba(30,60,90,.12);
     }
-    .brand img{height:26px}
+    .brand { display:flex; align-items:center; gap:10px; color:var(--white); font-weight:700; }
+    .brand .logo-sm{ width:44px; height:auto; opacity:0; transform:scale(.8); transition:all .35s ease; filter: drop-shadow(0 8px 18px rgba(0,0,0,.25)); }
+    .brand.show .logo-sm{ opacity:1; transform:scale(1); }
+    .brand .brand-text{ color:var(--white); margin-left:6px; font-weight:700; font-size:1rem; letter-spacing:.2px; opacity:0.95; }
 
     nav.main-nav{display:flex;gap:18px;align-items:center}
     nav.main-nav a{font-weight:600;font-size:.95rem;color:rgba(255,255,255,.95)}
-    .nav-pill{
-      background:var(--navy);
-      padding:8px 12px;
-      border-radius:999px;
-      color:var(--white);
-      font-weight:600;
-      box-shadow:0 6px 18px rgba(16,39,112,.12);
-    }
+    .nav-pill{ background:var(--navy); padding:8px 12px; border-radius:999px; color:var(--white); font-weight:600; }
 
-    /* Hero */
+    /* Intro overlay with big SVG logo */
+    .intro {
+      position:fixed; inset:0; background:var(--navy); z-index:999; display:flex;
+      align-items:center; justify-content:center; flex-direction:column; gap:16px; color:var(--white);
+    }
+    .intro .logo-lg{ width:58vw; max-width:640px; height:auto; display:block; filter:drop-shadow(0 20px 60px rgba(0,0,0,.5)); }
+    .intro h1{ font-size:2rem; margin:0; font-weight:700; text-align:center; }
+    .intro p{ margin:0; opacity:.95; text-align:center; max-width:760px; }
+
+    /* Page container for locomotive */
+    .page { max-width:var(--max-width); margin:0 auto; width:100%; }
+
+    /* HERO */
     .hero {
       min-height:100vh;
       display:grid;
@@ -94,253 +85,116 @@
       gap:40px;
       padding:120px var(--page-padding) 80px;
       position:relative;
-    }
-    .hero .left {
-      max-width:640px;
-    }
-    .kicker{
-      display:inline-block;
-      background:linear-gradient(90deg,var(--turquoise),var(--aqua));
       color:var(--white);
-      padding:8px 14px;
-      border-radius:999px;
-      font-weight:700;
-      margin-bottom:18px;
-      box-shadow:0 6px 18px rgba(30,60,80,.08);
     }
-    .hero h1{
-      font-size:3.2rem;
-      margin:12px 0 18px;
-      color:var(--navy);
-      line-height:1.05;
-    }
-    .hero p.lead{
-      color:#2f3f55;
-      margin:0 0 22px;
-      font-size:1.05rem;
-    }
-    .hero .cta-row{display:flex;gap:12px;align-items:center}
-    .btn{
-      display:inline-block;
-      padding:12px 18px;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      border:0;
-    }
-    .btn-primary{
-      background:linear-gradient(90deg,var(--accent),#f68e2e);
-      color:var(--white);
-      box-shadow:0 8px 30px rgba(244,127,48,.18);
-    }
-    .btn-outline{
-      background:transparent;
-      border:2px solid rgba(16,39,112,.08);
-      color:var(--navy);
-    }
-    .hero .features{display:flex;gap:18px;margin-top:22px;color:#32445b;font-weight:600}
+    .kicker{ display:inline-block; background:linear-gradient(90deg,var(--turquoise),var(--aqua)); color:var(--white); padding:8px 14px; border-radius:999px; font-weight:700; margin-bottom:18px; }
+    .hero h1{ font-size:2.6rem; margin:12px 0 18px; line-height:1.05; color:var(--white); }
+    .hero p.lead{ color:rgba(255,255,255,.9); margin:0 0 22px; font-size:1.05rem; }
 
-    /* Product preview right column */
-    .hero .right {
-      background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
-      border-radius:18px;
-      padding:20px;
-      box-shadow:0 20px 50px rgba(5,25,60,.12);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-    }
-    .product-visual{
-      width:100%;
-      max-width:360px;
-      text-align:center;
-    }
-    .product-visual img{border-radius:10px;box-shadow:0 18px 50px rgba(6,30,65,.12)}
-    .price-tag{
-      background:var(--accent);
-      color:var(--white);
-      padding:8px 14px;
-      border-radius:12px;
-      font-weight:800;
-      margin-top:10px;
-    }
+    .btn{ display:inline-block; padding:12px 18px; border-radius:12px; font-weight:700; cursor:pointer; border:0; }
+    .btn-primary{ background:linear-gradient(90deg,var(--accent),#f68e2e); color:var(--white); box-shadow:0 8px 30px rgba(244,127,48,.18); }
+    .btn-outline{ background:transparent; border:2px solid rgba(255,255,255,.14); color:var(--white); }
+
+    .hero .right{ background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border-radius:18px; padding:20px; box-shadow:0 20px 50px rgba(5,25,60,.12); display:flex; flex-direction:column; align-items:center; gap:12px; min-height:360px; }
+    .product-visual img{ border-radius:10px; box-shadow:0 18px 50px rgba(6,30,65,.12); background:#fff; padding:10px; max-width:320px; }
 
     /* Sections */
-    section {
-      min-height:60vh;
-      padding:80px var(--page-padding);
-    }
-    .section-card{
-      background:rgba(255,255,255,.9);
-      border-radius:14px;
-      padding:22px;
-      box-shadow:0 10px 30px rgba(10,20,50,.06);
-      max-width:1000px;margin:0 auto;
-    }
+    section { min-height:60vh; padding:80px var(--page-padding); transition:color .25s ease, background-color .25s ease; }
+    .section-card{ background:rgba(255,255,255,.95); border-radius:14px; padding:22px; box-shadow:0 10px 30px rgba(10,20,50,.06); max-width:1000px; margin:0 auto; }
 
-    /* Horizontal products (pin) */
-    .horizontal-scroll {
-      height:100vh;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      position:relative;
-    }
-    .pin-wrap{
-      height:100vh;
-      display:flex;
-      align-items:center;
-      padding:50px var(--page-padding);
-      gap:40px;
-      /* each child will be min-width */
-    }
+    /* Horizontal products */
+    .horizontal-scroll { height:100vh; overflow:hidden; display:flex; align-items:center; position:relative; }
+    .pin-wrap{ height:100vh; display:flex; align-items:center; padding:50px var(--page-padding); gap:40px; }
 
-    /* Product card style (responsive 3D-like feel) */
-    .product-card {
-      min-width: 46vw; /* two per view on large screens (approx) */
-      max-width:560px;
-      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,250,250,0.95));
-      border-radius:18px;
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:12px;
-      box-shadow:0 18px 40px rgba(5,20,50,.08);
-      transform-origin:center;
-    }
-    .product-card .media{
-      width:100%;
-      height:42vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      border-radius:12px;
-      background:linear-gradient(180deg, #f7fbfc, #eef8f9);
-    }
-    .product-card img{
-      max-height:100%;
-      width:auto;
-      object-fit:contain;
-    }
-    .product-card h3{margin:6px 0 0;font-size:1.2rem;color:var(--navy)}
-    .product-card p.desc{color:#577086;font-size:.95rem;margin:6px 0 6px;text-align:center}
-    .product-card .price{font-weight:800;font-size:1.25rem;color:var(--navy);margin-bottom:8px}
-    .product-card .actions{display:flex;gap:10px}
-    .product-card .actions .btn{padding:10px 14px;border-radius:10px}
-    .btn-buy{background:var(--accent);color:#fff;border:0;font-weight:800}
-    .btn-details{background:transparent;border:2px solid rgba(16,39,112,.08);color:var(--navy)}
+    /* Product card */
+    .product-card { min-width:46vw; max-width:560px; background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,250,250,0.98)); border-radius:18px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px; box-shadow:0 18px 40px rgba(5,20,50,.08); }
+    .product-card .media{ width:100%; height:42vh; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:12px; background:linear-gradient(180deg,#f7fbfc,#eef8f9); }
+    .product-card img{ max-height:100%; width:auto; object-fit:contain; }
+    .product-card h3{ margin:6px 0 0; font-size:1.12rem; color:var(--deep-navy); text-align:center; }
+    .product-card p.desc{ color:#577086; font-size:.95rem; margin:6px 0 6px; text-align:center; }
+    .product-card .price{ font-weight:800; font-size:1.18rem; color:var(--accent); margin-bottom:8px; }
+    .product-card .actions{ display:flex; gap:10px; }
+    .btn-buy{ background:var(--accent); color:#fff; border:0; font-weight:800; padding:10px 14px; border-radius:10px; }
+    .btn-details{ background:transparent; border:2px solid rgba(16,39,112,.08); color:var(--deep-navy); padding:10px 14px; border-radius:10px; }
 
-    /* Cart floating */
-    .cart-fab{
-      position:fixed;
-      right:22px;
-      bottom:22px;
-      z-index:150;
-      background:linear-gradient(90deg,var(--turquoise),var(--aqua));
-      color:var(--white);
-      padding:12px 16px;
-      border-radius:999px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      box-shadow:0 14px 46px rgba(30,90,100,.18);
-      cursor:pointer;
-    }
-    .cart-fab .count{background:var(--navy);padding:4px 8px;border-radius:8px;font-weight:700}
+    /* Cart */
+    .cart-fab{ position:fixed; right:22px; bottom:22px; z-index:150; background:linear-gradient(90deg,var(--turquoise),var(--aqua)); color:var(--white); padding:12px 16px; border-radius:999px; display:flex; gap:10px; align-items:center; box-shadow:0 14px 46px rgba(30,90,100,.18); cursor:pointer; }
+    .cart-fab .count{ background:var(--navy); padding:4px 8px; border-radius:8px; font-weight:700; }
 
-    /* Cart panel */
-    .cart-panel{
-      position:fixed;
-      right:22px;
-      bottom:80px;
-      width:360px;
-      max-width:92vw;
-      z-index:160;
-      background:var(--white);
-      border-radius:12px;
-      box-shadow:0 30px 80px rgba(10,30,60,.18);
-      padding:16px;
-      display:none;
-    }
-    .cart-panel h4{margin:0 0 12px}
-    .cart-item{display:flex;gap:12px;align-items:center;margin-bottom:12px}
-    .cart-item img{height:52px;width:auto;border-radius:6px}
-    .cart-item .meta{flex:1}
-    .cart-item .meta .name{font-weight:700}
-    .cart-item .meta .price{color:#6a7a8e}
-    .cart-total{display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid #eef0f3;margin-top:8px;font-weight:800}
+    .cart-panel{ position:fixed; right:22px; bottom:80px; width:360px; max-width:92vw; z-index:160; background:var(--white); border-radius:12px; box-shadow:0 30px 80px rgba(10,30,60,.18); padding:16px; display:none; }
+    .cart-item{ display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+    .cart-item img{ height:52px; width:auto; border-radius:6px; }
+    .cart-total{ display:flex; justify-content:space-between; padding-top:8px; border-top:1px solid #eef0f3; margin-top:8px; font-weight:800; }
 
-    /* Footer */
-    footer{
-      padding:40px var(--page-padding);
-      background:linear-gradient(180deg, rgba(5,25,45,.02), rgba(5,25,45,.04));
-      color:#21364b;
-    }
-    .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    footer{ padding:40px var(--page-padding); background:linear-gradient(180deg, rgba(5,25,45,.02), rgba(5,25,45,.04)); color:#21364b; }
+    .grid-3{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
 
     /* Responsive */
-    @media (max-width:1100px){
-      .hero{grid-template-columns:1fr 360px}
-      .product-card{min-width:60vw}
-    }
-    @media (max-width:780px){
-      header.site-header{top:12px;padding:0 18px}
-      .hero{grid-template-columns:1fr; padding:100px 22px 60px}
-      .hero .right{order:2}
-      .pin-wrap{padding:30px 18px}
-      .product-card{min-width:78vw}
-    }
+    @media (max-width:1100px){ .hero{ grid-template-columns:1fr 360px } .product-card{ min-width:60vw } }
+    @media (max-width:780px){ header.site-header{ top:12px; padding:0 18px } .hero{ grid-template-columns:1fr; padding:100px 22px 60px } .hero .right{ order:2 } .pin-wrap{ padding:30px 18px } .product-card{ min-width:78vw } .intro .logo-lg { width:78vw } }
   </style>
 </head>
 <body>
-  <!-- header -->
-  <header class="site-header" aria-hidden="false">
-    <div class="brand">
-      <img src="https://i.postimg.cc/XYgk4J7y/mi-logo-white.png" alt="logo" />
-      Medical Instrument
+  <!-- Intro overlay -->
+  <div class="intro" id="intro">
+    <!-- Inline SVG logo (simple white mark + text) -->
+    <svg class="logo-lg" id="logoIntro" viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Medical Instrument">
+      <rect width="800" height="240" fill="none"/>
+      <g fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M48 170 L92 40 L138 170 L176 70 L214 170 L256 110 L300 170" />
+      </g>
+      <text x="320" y="110" fill="#FFFFFF" font-family="Poppins, sans-serif" font-weight="700" font-size="56">MEDICAL</text>
+      <text x="320" y="170" fill="#FFFFFF" font-family="Poppins, sans-serif" font-weight="400" font-size="28">INSTRUMENT</text>
+    </svg>
+    <h1 id="introTitle">Bienvenido a Medical Instrument</h1>
+    <p id="introSubtitle">Equipos médicos, servicio y soporte con garantía y profesionalismo.</p>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="brand" id="brandHeader">
+      <!-- small svg logo shown after intro -->
+      <svg class="logo-sm" id="logoSmall" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 28 L18 6 L32 28 L44 12 L58 28" /></g></svg>
+      <div class="brand-text">Medical Instrument</div>
     </div>
-    <div style="display:flex;gap:12px;align-items:center">
-      <nav class="main-nav" aria-label="Main navigation">
-        <a class="nav-pill" href="#productos">Productos</a>
-        <a href="#acerca" style="color:var(--navy);font-weight:600">Acerca</a>
-        <a href="#servicio" style="color:var(--navy);font-weight:600">Servicio</a>
-        <a href="#contacto" style="color:var(--navy);font-weight:600">Contacto</a>
-      </nav>
-    </div>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="nav-pill" href="#productos">Productos</a>
+      <a href="#acerca" style="color:var(--white);font-weight:600">Acerca</a>
+      <a href="#servicio" style="color:var(--white);font-weight:600">Servicio</a>
+      <a href="#contacto" style="color:var(--white);font-weight:600">Contacto</a>
+    </nav>
   </header>
 
-  <!-- Page container used as locomotive scroll container -->
+  <!-- Page container for locomotive -->
   <main class="page" data-scroll-container>
 
-    <!-- HERO -->
-    <section data-bgcolor="#032f35" data-textcolor="#bcb8ad" class="hero">
+    <!-- HERO (uses image 4 as featured product) -->
+    <section id="hero" class="hero" data-bgcolor="#032f35" data-textcolor="#bcb8ad">
       <div class="left" data-scroll data-scroll-speed="1">
         <span class="kicker">Equipo médico</span>
         <h1>Sistema de oxígeno para el hogar<br><span style="color:var(--turquoise)">EverFlo — Philips</span></h1>
-        <p class="lead">Concentrador de oxígeno EverFlo, flujo regulable de 0.5 a 5 LPM. Fiable, eficiente y fácil de usar. Perfecto para entornos domiciliarios y clínicas pequeñas.</p>
+        <p class="lead">La EverFlo de Philips satisface necesidades de flujo de 0.5 a 5 LPM. Eficiente, silenciosa y diseñada para uso domiciliario y clínico.</p>
 
         <div class="cta-row">
-          <button class="btn btn-primary" id="buy-hero" data-product='{"id":"p0","name":"Concentrador EverFlo","price":2300000,"img":"https://i.postimg.cc/sD7PXvH8/concentrador.jpg"}'>Comprar ahora</button>
+          <!-- buy hero uses product p4 (image 4) -->
+          <button class="btn btn-primary" id="buy-hero" data-product='{"id":"p4","name":"Sistema EverFlo Philips","price":2300000,"img":"https://raw.githubusercontent.com/sergiogonza/medical/main/assets/4.jpeg"}'>Comprar ahora</button>
           <a class="btn btn-outline" href="#productos">Ver productos</a>
         </div>
 
-        <div class="features">
-          <div><strong>Soporte técnico</strong><div style="font-size:.85rem;color:#4b6376">Mantenimiento y garantía</div></div>
-          <div><strong>Entrega rápida</strong><div style="font-size:.85rem;color:#4b6376">Logística nacional</div></div>
-          <div><strong>Financiación</strong><div style="font-size:.85rem;color:#4b6376">Opciones de pago</div></div>
+        <div class="features" style="margin-top:22px;color:rgba(255,255,255,.9);font-weight:600">
+          <div>Soporte técnico<div style="font-size:.85rem;color:rgba(255,255,255,.85);font-weight:500">Mantenimiento y garantía</div></div>
+          <div>Entrega rápida<div style="font-size:.85rem;color:rgba(255,255,255,.85);font-weight:500">Logística nacional</div></div>
+          <div>Financiación<div style="font-size:.85rem;color:rgba(255,255,255,.85);font-weight:500">Opciones de pago</div></div>
         </div>
       </div>
 
       <div class="right" data-scroll data-scroll-speed="0.5">
-        <div class="product-visual">
-          <img src="https://i.postimg.cc/sD7PXvH8/concentrador.jpg" alt="Concentrador de Oxígeno">
+        <div class="product-visual" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/sergiogonza/medical/main/assets/4.jpeg" alt="EverFlo Philips">
           <div class="price-tag">$2'300.000</div>
         </div>
-        <div style="margin-top:8px;color:#294055;font-weight:700">Escríbenos: (+57) 310 384 9555</div>
+        <div style="margin-top:8px;color:rgba(255,255,255,.95);font-weight:700">Escríbenos: (+57) 310 384 95 55</div>
       </div>
     </section>
 
@@ -348,21 +202,12 @@
     <section id="acerca" data-bgcolor="#bcb8ad" data-textcolor="#032f35">
       <div class="section-card" data-scroll data-scroll-speed="1">
         <h2>Acerca de Medical Instrument</h2>
-        <p>Somos una empresa dedicada a la comercialización de insumos médicos hospitalarios humanos y veterinarios. Ofrecemos equipos, servicio técnico y soluciones integrales con altos estándares de calidad y cumplimiento normativo.</p>
+        <p>Comercializamos equipos e insumos médicos humanos y veterinarios. Ofrecemos venta, alquiler, mantenimiento y soporte técnico con protocolos de calidad y cumplimiento normativo.</p>
 
         <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
-          <div>
-            <h4>Misión</h4>
-            <p>Llegar a zonas remotas ofreciendo equipamiento y soporte para preservar la vida humana y animal, con atención oportuna y productos garantizados.</p>
-          </div>
-          <div>
-            <h4>Visión</h4>
-            <p>Innovar permanentemente y ampliar nuestro portafolio, manteniendo prácticas responsables con el planeta y cumpliendo con todas las normativas.</p>
-          </div>
-          <div>
-            <h4>Centro de Servicio</h4>
-            <p>Venta, alquiler y mantenimiento de equipos médicos, odontológicos, veterinarios y estéticos. Especialistas en mantenimiento, calibración y techovigilancia.</p>
-          </div>
+          <div><h4>Misión</h4><p>Llegar a zonas remotas con equipamiento y soporte para preservar la vida humana y animal.</p></div>
+          <div><h4>Visión</h4><p>Innovar y ampliar nuestro portafolio con soluciones responsables y sostenibles.</p></div>
+          <div><h4>Centro de Servicio</h4><p>Mantenimiento, calibración y soporte posventa con tecnovigilancia.</p></div>
         </div>
       </div>
     </section>
@@ -371,86 +216,86 @@
     <section id="productos" class="horizontal-scroll" data-bgcolor="#815946" data-textcolor="#bcb8ad" aria-label="Productos destacados">
       <div class="pin-wrap">
 
-        <!-- Product 1 -->
-        <article class="product-card" data-id="p1" data-scroll data-scroll-speed="1">
-          <div class="media"><img src="https://i.postimg.cc/sD7PXvH8/concentrador.jpg" alt="Concentrador EverFlo"></div>
-          <h3>Concentrador EverFlo — Philips</h3>
-          <p class="desc">Flujo 0.5–5 LPM. Uso domiciliario. Bajo consumo.</p>
+        <!-- 1) Máquina de anestesia Advanced AM-6000 -->
+        <article class="product-card" data-id="p1">
+          <div class="media"><img src="https://raw.githubusercontent.com/sergiogonza/medical/main/assets/1.jpeg" alt="Máquina de anestesia AM-6000"></div>
+          <h3>Máquina de anestesia — Advanced AM-6000</h3>
+          <p class="desc">Diseñada para suministrar anestesia general de flujo continuo.</p>
+          <div class="price">$19'000.000</div>
+          <div class="actions">
+            <button class="btn-buy" data-buy='{"id":"p1","name":"Máquina de anestesia Advanced AM-6000","price":19000000,"img":"https://raw.githubusercontent.com/sergiogonza/medical/main/assets/1.jpeg"}'>Comprar</button>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </article>
+
+        <!-- 2) Analizador químico Mindray BA-88A -->
+        <article class="product-card" data-id="p2">
+          <div class="media"><img src="https://raw.githubusercontent.com/sergiogonza/medical/main/assets/2.jpeg" alt="Analizador Mindray BA-88A"></div>
+          <h3>Analizador químico — Mindray BA-88A</h3>
+          <p class="desc">Semi-automático, como nuevo.</p>
+          <div class="price">$6'800.000</div>
+          <div class="actions">
+            <button class="btn-buy" data-buy='{"id":"p2","name":"Analizador químico Mindray BA-88A","price":6800000,"img":"https://raw.githubusercontent.com/sergiogonza/medical/main/assets/2.jpeg"}'>Comprar</button>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </article>
+
+        <!-- 3) Monitor EDAN M8 -->
+        <article class="product-card" data-id="p3">
+          <div class="media"><img src="https://raw.githubusercontent.com/sergiogonza/medical/main/assets/3.jpeg" alt="Monitor EDAN M8"></div>
+          <h3>Monitor — EDAN M8</h3>
+          <p class="desc">Monitor multiparámetro. 12 unidades disponibles.</p>
+          <div class="price">$1'800.000</div>
+          <div class="actions">
+            <button class="btn-buy" data-buy='{"id":"p3","name":"Monitor EDAN M8","price":1800000,"img":"https://raw.githubusercontent.com/sergiogonza/medical/main/assets/3.jpeg"}'>Comprar</button>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </article>
+
+        <!-- 4) Sistema de oxígeno EverFlo Philips -->
+        <article class="product-card" data-id="p4">
+          <div class="media"><img src="https://raw.githubusercontent.com/sergiogonza/medical/main/assets/4.jpeg" alt="EverFlo Philips"></div>
+          <h3>Sistema de oxígeno — EverFlo (Philips)</h3>
+          <p class="desc">Flujo 0.5 – 5 LPM. Ideal para uso domiciliario.</p>
           <div class="price">$2'300.000</div>
           <div class="actions">
-            <button class="btn btn-buy" data-buy='{"id":"p1","name":"Concentrador EverFlo","price":2300000,"img":"https://i.postimg.cc/sD7PXvH8/concentrador.jpg"}'>Comprar</button>
-            <button class="btn btn-details">Ver detalles</button>
+            <button class="btn-buy" data-buy='{"id":"p4","name":"Sistema EverFlo Philips","price":2300000,"img":"https://raw.githubusercontent.com/sergiogonza/medical/main/assets/4.jpeg"}'>Comprar</button>
+            <button class="btn-details">Ver detalles</button>
           </div>
         </article>
 
-        <!-- Product 2 -->
-        <article class="product-card" data-id="p2">
-          <div class="media"><img src="https://i.postimg.cc/0QNB6pwq/autoclave.jpg" alt="Autoclave"></div>
-          <h3>Autoclave Sterilizador</h3>
-          <p class="desc">Capacidad media, ciclos automáticos y control de presión.</p>
-          <div class="price">$5'200.000</div>
-          <div class="actions">
-            <button class="btn btn-buy" data-buy='{"id":"p2","name":"Autoclave Sterilizador","price":5200000,"img":"https://i.postimg.cc/0QNB6pwq/autoclave.jpg"}'>Comprar</button>
-            <button class="btn btn-details">Ver detalles</button>
-          </div>
-        </article>
-
-        <!-- Product 3 -->
-        <article class="product-card" data-id="p3">
-          <div class="media"><img src="https://i.postimg.cc/zf0Hj1sR/ecografo.jpg" alt="Ecógrafo Doppler"></div>
-          <h3>Ecógrafo Doppler Portátil</h3>
-          <p class="desc">Alta resolución para diagnóstico rápido.</p>
-          <div class="price">$8'500.000</div>
-          <div class="actions">
-            <button class="btn btn-buy" data-buy='{"id":"p3","name":"Ecógrafo Doppler","price":8500000,"img":"https://i.postimg.cc/zf0Hj1sR/ecografo.jpg"}'>Comprar</button>
-            <button class="btn btn-details">Ver detalles</button>
-          </div>
-        </article>
-
-        <!-- Product 4 -->
-        <article class="product-card" data-id="p4">
-          <div class="media"><img src="https://images.pexels.com/photos/5207262/pexels-photo-5207262.jpeg" alt="Desfibrilador"></div>
-          <h3>Desfibrilador Semi-Automático</h3>
-          <p class="desc">Fácil uso, ideal para áreas públicas y clínicas.</p>
-          <div class="price">$3'900.000</div>
-          <div class="actions">
-            <button class="btn btn-buy" data-buy='{"id":"p4","name":"Desfibrilador Semi-Automático","price":3900000,"img":"https://images.pexels.com/photos/5207262/pexels-photo-5207262.jpeg"}'>Comprar</button>
-            <button class="btn btn-details">Ver detalles</button>
-          </div>
-        </article>
-
-        <!-- Product 5 -->
+        <!-- 5) Máquina de anestesia — Vet (AM-6000) -->
         <article class="product-card" data-id="p5">
-          <div class="media"><img src="https://images.pexels.com/photos/3618545/pexels-photo-3618545.jpeg" alt="Bomba de infusión"></div>
-          <h3>Bomba de Infusión</h3>
-          <p class="desc">Control preciso de tasas de goteo y alarmas integradas.</p>
-          <div class="price">$2'100.000</div>
+          <div class="media"><img src="https://raw.githubusercontent.com/sergiogonza/medical/main/assets/5.jpeg" alt="Máquina de anestesia Vet AM-6000"></div>
+          <h3>Máquina de anestesia — Advanced AM-6000 (Vet)</h3>
+          <p class="desc">Diseñada para suministrar anestesia general de flujo continuo. Equipo veterinario.</p>
+          <div class="price">$19'000.000</div>
           <div class="actions">
-            <button class="btn btn-buy" data-buy='{"id":"p5","name":"Bomba de Infusión","price":2100000,"img":"https://images.pexels.com/photos/3618545/pexels-photo-3618545.jpeg"}'>Comprar</button>
-            <button class="btn btn-details">Ver detalles</button>
+            <button class="btn-buy" data-buy='{"id":"p5","name":"Máquina de anestesia Advanced AM-6000 (Vet)","price":19000000,"img":"https://raw.githubusercontent.com/sergiogonza/medical/main/assets/5.jpeg"}'>Comprar</button>
+            <button class="btn-details">Ver detalles</button>
           </div>
         </article>
 
-        <!-- Product 6 -->
+        <!-- 6) Sistema nebulizador — Philips Respironics -->
         <article class="product-card" data-id="p6">
-          <div class="media"><img src="https://images.pexels.com/photos/3371358/pexels-photo-3371358.jpeg" alt="Cavitron"></div>
-          <h3>Cavitron Ultrasonic</h3>
-          <p class="desc">Equipo dental profesional para limpieza y profilaxis.</p>
-          <div class="price">$1'350.000</div>
+          <div class="media"><img src="https://raw.githubusercontent.com/sergiogonza/medical/main/assets/6.jpeg" alt="Nebulizador Philips Respironics"></div>
+          <h3>Sistema nebulizador — Philips Respironics</h3>
+          <p class="desc">Administración eficiente de fármacos en aerosol. Compresor económico.</p>
+          <div class="price">$110.000</div>
           <div class="actions">
-            <button class="btn btn-buy" data-buy='{"id":"p6","name":"Cavitron Ultrasonic","price":1350000,"img":"https://images.pexels.com/photos/3371358/pexels-photo-3371358.jpeg"}'>Comprar</button>
-            <button class="btn btn-details">Ver detalles</button>
+            <button class="btn-buy" data-buy='{"id":"p6","name":"Nebulizador Philips Respironics","price":110000,"img":"https://raw.githubusercontent.com/sergiogonza/medical/main/assets/6.jpeg"}'>Comprar</button>
+            <button class="btn-details">Ver detalles</button>
           </div>
         </article>
 
       </div>
     </section>
 
-    <!-- SERVICIOS / CENTRO -->
+    <!-- SERVICIO -->
     <section id="servicio" data-bgcolor="#bcb8ad" data-textcolor="#032f35">
       <div class="section-card">
         <h2>Centro de Servicio & Soporte</h2>
-        <p>Venta, alquiler, mantenimiento, calibración y soporte posventa. Desarrollo de software para gestión biomédica, gestión de habilitación, certificación y tecno vigilancia.</p>
+        <p>Venta, alquiler, mantenimiento, calibración y soporte posventa. Desarrollo de software para gestión biomédica, habilitación y tecno vigilancia.</p>
       </div>
     </section>
 
@@ -463,37 +308,22 @@
           <p>Sí. Aceptamos tarjetas, efectivo contraentrega y pago en corresponsales. Entregas seguras y facturación legal.</p>
 
           <strong>¿Cómo uso un cupón?</strong>
-          <p>Hay un campo en la pasarela de pago para agregar cupones. Si hay problemas, llámanos al número de contacto.</p>
+          <p>Hay un campo en la pasarela de pago para agregar cupones. Si hay problemas, contáctanos.</p>
 
           <strong>¿Puedo cambiar un producto?</strong>
-          <p>Sí, contáctanos antes de la entrega o en los plazos indicados para gestionar el cambio o devolución.</p>
+          <p>Sí, contáctanos antes o dentro de los plazos acordados para gestionar cambios o devoluciones.</p>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- CONTACTO -->
     <section id="contacto" data-bgcolor="#032f35" data-textcolor="#bcb8ad">
       <div class="section-card">
         <h2>Contacto</h2>
         <div class="grid-3">
-          <div>
-            <h4>Teléfono</h4>
-            <p>(+57) 310-384-95-55 / (+57) 310-448-56-56</p>
-            <h4>Email</h4>
-            <p>medical11instrument@gmail.com</p>
-          </div>
-          <div>
-            <h4>Dirección</h4>
-            <p>Cl. 65 #35-4 a 35-128, Manizales, Caldas</p>
-            <h4>Horario</h4>
-            <p>Lunes - Viernes / 8:00 AM - 6:00 PM</p>
-          </div>
-          <div>
-            <h4>Síguenos</h4>
-            <p>Facebook • Instagram • YouTube</p>
-            <h4>Soporte</h4>
-            <p>Centro de servicio y preguntas frecuentes online</p>
-          </div>
+          <div><h4>Teléfono</h4><p>(+57) 310-384-95-55 / (+57) 310-448-56-56</p><h4>Email</h4><p>medical11instrument@gmail.com</p></div>
+          <div><h4>Dirección</h4><p>Cl. 65 #35-4 a 35-128, Manizales, Caldas</p><h4>Horario</h4><p>Lunes - Viernes / 8:00 AM - 6:00 PM</p></div>
+          <div><h4>Síguenos</h4><p>Facebook • Instagram • YouTube</p><h4>Soporte</h4><p>Centro de servicio y preguntas frecuentes online</p></div>
         </div>
       </div>
     </section>
@@ -503,11 +333,8 @@
       <div class="page" style="padding:0">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
           <div style="display:flex;gap:12px;align-items:center">
-            <img src="https://i.postimg.cc/XYgk4J7y/mi-logo-white.png" alt="" style="height:32px">
-            <div>
-              <strong>Medical Instrument</strong><br>
-              <small>© Copyright 2021 - Todos los derechos reservados.</small>
-            </div>
+            <svg width="36" height="36" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 28 L18 6 L32 28 L44 12 L58 28" /></g></svg>
+            <div><strong style="color:#fff">Medical Instrument</strong><br><small style="color:#d6e6ef">© Copyright 2021 - Todos los derechos reservados.</small></div>
           </div>
           <div style="color:#98a8b9">Políticas • Términos • Privacidad</div>
         </div>
@@ -526,23 +353,20 @@
   <div class="cart-panel" id="cartPanel" aria-hidden="true">
     <h4>Tu carrito</h4>
     <div id="cartItems"></div>
-    <div class="cart-total">
-      <div>Total</div>
-      <div id="cartTotal">$0</div>
-    </div>
+    <div class="cart-total"><div>Total</div><div id="cartTotal">$0</div></div>
     <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
       <button class="btn btn-outline" id="closeCart">Seguir comprando</button>
       <button class="btn btn-primary" id="checkoutBtn">Pagar ahora</button>
     </div>
   </div>
 
-  <!-- Scripts: GSAP / ScrollTrigger / Locomotive -->
+  <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
 
   <script>
-    // Basic cart functionality
+    /* ---------- CART (client demo) ---------- */
     (function(){
       const cart = [];
       const cartCount = document.getElementById('cartCount');
@@ -559,7 +383,8 @@
         cart.forEach(item=>{
           const div = document.createElement('div');
           div.className = 'cart-item';
-          div.innerHTML = '<img src="'+item.img+'" alt=""><div class="meta"><div class="name">'+item.name+'</div><div class="price">'+formatMoney(item.price)+' x '+item.qty+'</div></div><div><button data-id="'+item.id+'" class="remove-item" style="background:transparent;border:none;color:#f04a4a;cursor:pointer">Eliminar</button></div>';
+          div.style.display='flex'; div.style.gap='12px'; div.style.alignItems='center'; div.style.marginBottom='12px';
+          div.innerHTML = '<img src="'+item.img+'" alt="" style="height:52px;border-radius:6px"><div style="flex:1"><div style="font-weight:700">'+item.name+'</div><div style="color:#6a7a8e">'+formatMoney(item.price)+' x '+item.qty+'</div></div><div><button data-id="'+item.id+'" class="remove-item" style="background:transparent;border:none;color:#f04a4a;cursor:pointer">Eliminar</button></div>';
           cartItemsEl.appendChild(div);
         });
         const total = cart.reduce((s,i)=>s + i.price*i.qty,0);
@@ -571,11 +396,9 @@
         if(found) found.qty++;
         else cart.push({...obj,qty:1});
         updateCartUI();
-        // small feedback
         cartFab.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:300});
       }
 
-      // attach buy buttons
       document.querySelectorAll('[data-buy]').forEach(btn=>{
         btn.addEventListener('click', e=>{
           const data = JSON.parse(btn.getAttribute('data-buy'));
@@ -583,14 +406,16 @@
         });
       });
 
-      // hero buy
-      document.getElementById('buy-hero').addEventListener('click', function(){
-        const data = JSON.parse(this.getAttribute('data-product'));
-        addToCart(data);
-        window.scrollTo({top:document.querySelector('#productos').offsetTop - 80, behavior:'smooth'});
-      });
+      const buyHero = document.getElementById('buy-hero');
+      if(buyHero){
+        buyHero.addEventListener('click', function(){
+          const data = JSON.parse(this.getAttribute('data-product'));
+          addToCart(data);
+          const target = document.querySelector('#productos');
+          if(target) window.scrollTo({top: target.offsetTop - 60, behavior:'smooth'});
+        });
+      }
 
-      // cart fab toggle
       cartFab.addEventListener('click', ()=>{
         if(cartPanel.style.display === 'block'){ cartPanel.style.display='none'; cartPanel.setAttribute('aria-hidden','true'); }
         else { cartPanel.style.display='block'; cartPanel.setAttribute('aria-hidden','false'); }
@@ -600,7 +425,6 @@
         cartPanel.style.display='none'; cartPanel.setAttribute('aria-hidden','true');
       });
 
-      // remove item
       cartItemsEl.addEventListener('click', (e)=>{
         if(e.target.matches('.remove-item')){
           const id = e.target.getAttribute('data-id');
@@ -610,19 +434,16 @@
         }
       });
 
-      // checkout (placeholder)
       document.getElementById('checkoutBtn').addEventListener('click', ()=>{
         if(cart.length===0){ alert('Tu carrito está vacío.'); return; }
-        // here you would integrate con pasarela o página de checkout
         alert('Procesando pedido — total: ' + cartTotalEl.textContent + '\\n(esto es una demo)');
         cart.length = 0;
         updateCartUI();
         cartPanel.style.display='none';
       });
-
     })();
 
-    // GSAP + Locomotive Scroll integration & color change logic
+    /* ---------- GSAP + Locomotive + Intro + header shrink + color changer ---------- */
     (function(){
       gsap.registerPlugin(ScrollTrigger);
 
@@ -636,24 +457,19 @@
 
       scroller.on('scroll', ScrollTrigger.update);
 
-      // tell ScrollTrigger to use these proxy methods for the ".page" element since LocomotiveScroll is hijacking things
       ScrollTrigger.scrollerProxy(pageContainer, {
         scrollTop(value) {
           return arguments.length ? scroller.scrollTo(value, 0, 0) : scroller.scroll.instance.scroll.y;
         },
-        getBoundingClientRect() {
-          return {left: 0, top: 0, width: window.innerWidth, height: window.innerHeight};
-        },
+        getBoundingClientRect() { return {left:0, top:0, width:window.innerWidth, height:window.innerHeight}; },
         pinType: pageContainer.style.transform ? "transform" : "fixed"
       });
 
-      // horizontal pin sections
-      const horizontalSections = document.querySelectorAll('.horizontal-scroll');
-      horizontalSections.forEach(section=>{
+      // horizontal pin
+      document.querySelectorAll('.horizontal-scroll').forEach(section=>{
         const pinWrap = section.querySelector('.pin-wrap');
-        const end = pinWrap.scrollWidth - window.innerWidth + window.innerWidth; // distance
         gsap.to(pinWrap, {
-          x: () => -(pinWrap.scrollWidth - window.innerWidth + 200),
+          x: () => -(pinWrap.scrollWidth - window.innerWidth + 120),
           ease: "none",
           scrollTrigger: {
             trigger: section,
@@ -667,7 +483,7 @@
         });
       });
 
-      // color change per section (data-bgcolor & data-textcolor)
+      // color change per section & ensure readable cards
       const colorSections = document.querySelectorAll('section[data-bgcolor]');
       colorSections.forEach((sec,i)=>{
         const bg = sec.dataset.bgcolor;
@@ -678,24 +494,64 @@
           trigger: sec,
           scroller: pageContainer,
           start: "top center",
-          onEnter: ()=> gsap.to('body',{backgroundColor:bg, color:text, overwrite:'auto', duration:0.45}),
-          onEnterBack: ()=> gsap.to('body',{backgroundColor:bg, color:text, overwrite:'auto', duration:0.45}),
-          onLeaveBack: ()=> gsap.to('body',{backgroundColor: prevBg || getComputedStyle(document.body).backgroundColor, color: prevText || getComputedStyle(document.body).color, overwrite:'auto', duration:0.35})
+          onEnter: ()=> applySectionColors(bg, text),
+          onEnterBack: ()=> applySectionColors(bg, text),
+          onLeaveBack: ()=> applySectionColors(prevBg || getComputedStyle(document.body).backgroundColor, prevText || getComputedStyle(document.body).color)
         });
       });
+
+      function applySectionColors(bg, text){
+        gsap.to('body',{backgroundColor:bg, color:text, overwrite:'auto', duration:0.35});
+        // nav & brand color adjustments
+        document.querySelectorAll('nav.main-nav a').forEach(a=> a.style.color = text );
+        document.querySelectorAll('.brand .brand-text').forEach(t=> t.style.color = text );
+      }
 
       ScrollTrigger.addEventListener("refresh", () => scroller.update());
       ScrollTrigger.refresh();
 
-    })();
+      /* Intro timeline: show big logo, then hide and show small header logo */
+      const intro = document.getElementById('intro');
+      const logoIntro = document.getElementById('logoIntro');
+      const logoSmall = document.getElementById('logoSmall');
+      const brandHeader = document.getElementById('brandHeader');
 
-    // small accessibility: focus visible for keyboard users
-    (function(){
+      const tl = gsap.timeline({delay:0.2});
+      tl.to('#introTitle',{y:0, opacity:1, duration:0.6, ease:'power2.out'});
+      tl.to('#introSubtitle',{y:0, opacity:1, duration:0.6, ease:'power2.out'}, '-=0.45');
+      tl.to(logoIntro, {scale:0.6, duration:0.8, ease:'power2.inOut'}, '+=0.35');
+      tl.to(logoIntro, {opacity:0, duration:0.45, onComplete: ()=> {
+        // reveal small header logo
+        document.querySelector('.brand').classList.add('show');
+        // hide intro overlay
+        intro.style.pointerEvents = 'none';
+        gsap.to(intro, {autoAlpha:0, display:'none', duration:0.25});
+      }}, '+=0.25');
+
+      // header shrink effect on scroll out of hero
+      ScrollTrigger.create({
+        trigger: '#hero',
+        scroller: pageContainer,
+        start: 'top top',
+        end: '+=200',
+        scrub: true,
+        onUpdate: self => {
+          const progress = Math.min(1, Math.max(0, self.progress));
+          const scale = 1 - (0.22 * progress);
+          const y = -6 * progress;
+          const bgOpacity = 0.0 + (0.18 * progress);
+          const header = document.getElementById('siteHeader');
+          header.style.transform = `translateY(${y}px) scale(${scale})`;
+          header.style.background = `rgba(255,255,255, ${bgOpacity})`;
+        }
+      });
+
+      // accessibility focus outline
       document.addEventListener('keyup', function(e){
         if(e.key === 'Tab') document.body.classList.add('show-focus');
       });
-    })();
 
+    })();
   </script>
 </body>
 </html>
